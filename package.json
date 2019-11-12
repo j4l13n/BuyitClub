@@ -1,0 +1,29 @@
+{
+  "name": "BuyitClub",
+  "version": "1.0.0",
+  "description": "Learning together is the most powerful path in life",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon --exec babel-node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/j4l13n/BuyitClub.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/j4l13n/BuyitClub/issues"
+  },
+  "homepage": "https://github.com/j4l13n/BuyitClub#readme",
+  "devDependencies": {
+    "babel-preset-env": "^1.7.0",
+    "nodemon": "^1.19.4"
+  },
+  "dependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3"
+  }
+}
