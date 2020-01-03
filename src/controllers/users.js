@@ -1,3 +1,4 @@
+import bcrypt from "bcrypt";
 import model from "../db/models";
 import processToken from "../helpers/processToken";
 
@@ -75,6 +76,57 @@ class UserController {
         error: 'The requested roles were not found'
       });
     } 
+  }
+
+  /**
+   * 
+   * @param {Object} req 
+   * @param {Object} res 
+   * @returns {Object} logged in user
+   */
+  static async login(req, res) {
+    try {
+      const findUser = await User.findOne({ where: { email: req.body.email } });
+
+      if (findUser) {
+        const {
+          id, email, password, is_active
+        } = findUser.dataValues;
+        const userData = {
+          id, email, password, is_active
+        };
+        if (!findUser.dataValues.is_active) {
+          return res.status(401).json({
+            message: 'Please check your email and click the button to verify your email'
+          });
+        }
+
+        if (bcrypt.compareSync(req.body.password, userData.password)) {
+          const payload = {
+            id,
+            email
+          };
+          const token = await processToken.signToken(payload);
+          return res.status(200).json({
+            message: 'User has been successfully logged in',
+            user: {
+              token,
+              email: payload.email
+            }
+          });
+        }
+        return res.status(401).json({
+          message: 'incorrect password'
+        });
+      }
+      return res.status(404).json({
+        message: `user with email: ${req.body.email} does not exist`
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: 'internal server error! please try again later'
+      });
+    }
   }
 }
 
