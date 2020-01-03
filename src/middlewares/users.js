@@ -1,7 +1,8 @@
 import validator from '../helpers/validator';
 import model from "../db/models";
+import role from '../db/models/role';
 
-const { User } = model;
+const { User, Role } = model;
 
 class UserMiddleware {
     static async register(req, res, next) {
@@ -34,6 +35,17 @@ class UserMiddleware {
             }
             next()
         }
+    }
+
+    static async addRole(req, res, next) {
+        const { name } = req.body
+        const findRole = await Role.findOne({ where: { name }});
+        if (findRole) {
+            res.status(409).json({
+                error: 'Role already exists'
+            });
+        }
+        next()
     }
 }
 
