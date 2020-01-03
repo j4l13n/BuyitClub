@@ -1,0 +1,42 @@
+{
+  "name": "buyit",
+  "version": "1.0.0",
+  "description": "e-commerce project",
+  "main": "app.js",
+  "scripts": {
+    "test": "mocha",
+    "start": "babel-node app.js",
+    "dev": "nodemon --exec babel-node app.js",
+    "migrate": "sequelize db:migrate",
+    "undo-migrate": "sequelize db:migrate:undo:all"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/j4l13n/BuyitClub.git"
+  },
+  "keywords": [
+    "buyit"
+  ],
+  "author": "Karangwa Hirwa Julien <juliushirwa@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/j4l13n/BuyitClub/issues"
+  },
+  "homepage": "https://github.com/j4l13n/BuyitClub#readme",
+  "devDependencies": {
+    "babel-preset-env": "^1.7.0"
+  },
+  "dependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "bcrypt": "^3.0.7",
+    "body-parser": "^1.19.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "morgan": "^1.9.1",
+    "nodemon": "^1.19.4",
+    "pg": "^7.12.1",
+    "pg-hstore": "^2.3.3",
+    "sequelize": "^5.21.2"
+  }
+}
