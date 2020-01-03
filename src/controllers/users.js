@@ -1,4 +1,5 @@
 import model from "../db/models";
+import processToken from "../helpers/processToken";
 
 const { User, Role } = model;
 
@@ -18,9 +19,17 @@ class UserController {
         password
       }; 
       const registerUser = await User.create(user)
+      const { id } = registerUser.dataValues;
+      const payload = { id, email };
+      const token = await processToken.signToken(payload);
       res.status(201).json({
         message: 'Thank you for registration, You should check your email for verification',
-        user: registerUser
+        data: {
+          token,
+          id,
+          email,
+          mobile_number
+        }
       });
     } catch (error) {
       return res.status(409).json({
@@ -45,7 +54,7 @@ class UserController {
       });
       res.status(201).json({
         message: 'You have successfully registered new role',
-        role: name
+        role: registerRole
       });
     } catch (error) {
       res.status(409).json({
