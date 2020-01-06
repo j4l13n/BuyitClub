@@ -21,7 +21,7 @@ module.exports = {
         unique: true,
         allowNull: false,
       },
-      mobile_number: {
+      mobileNumber: {
         type: Sequelize.STRING,
         unique: true,
         allowNull: false,
@@ -30,11 +30,11 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: true,
       },
-      is_admin: {
+      isAdmin: {
         type: Sequelize.BOOLEAN,
         allowNull: false,
       },
-      is_active: {
+      isActive: {
         type: Sequelize.BOOLEAN,
         allowNull: false,
       },

@@ -14,9 +14,9 @@ class UserController {
    */
   static async register(req, res) {
     try {
-      const { mobile_number, email, password } = req.body;
+      const { mobileNumber, email, password } = req.body;
       const user = {
-        mobile_number,
+        mobileNumber,
         email,
         password
       };
@@ -33,7 +33,7 @@ class UserController {
             token,
             id,
             email,
-            mobile_number
+            mobileNumber
           }
         });
       }
@@ -57,13 +57,13 @@ class UserController {
       });
 
       if (findUser) {
-        if (findUser.is_active) {
+        if (findUser.isActive) {
           return res.status(202).json({
             message: "Email already Verified."
           });
         }
         await User.update(
-          { is_active: true },
+          { isActive: true },
           { where: { id: findUser.id } }
         );
         return res.status(403).json({
@@ -126,12 +126,12 @@ class UserController {
 
       if (findUser) {
         const {
-          id, email, password, is_active
+          id, email, password, isActive
         } = findUser.dataValues;
         const userData = {
-          id, email, password, is_active
+          id, email, password, isActive
         };
-        if (!findUser.dataValues.is_active) {
+        if (!findUser.dataValues.isActive) {
           return res.status(401).json({
             message: 'Please check your email and click the button to verify your email'
           });

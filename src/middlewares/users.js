@@ -7,13 +7,13 @@ const { User, Role } = model;
 class UserMiddleware {
     static async register(req, res, next) {
         const {
-            email, mobile_number, password
+            email, mobileNumber, password
         } = req.body;
         if (!validator.isValidEmail(email)) {
             res.status(400).json({
                 error: 'Invalid email, please use this format: example@company.com'
             });
-        } else if (!validator.isValidMobileNumber(mobile_number)) {
+        } else if (!validator.isValidMobileNumber(mobileNumber)) {
             res.status(400).json({
                 error: 'Invalid mobile number, please use the following format: +250789837394'
             });
@@ -23,7 +23,7 @@ class UserMiddleware {
             });
         } else {
             const findEmail = await User.findOne({ where: { email } });
-            const findMobile = await User.findOne({ where: { mobile_number } })
+            const findMobile = await User.findOne({ where: { mobileNumber } })
             if (findEmail) {
                 res.status(409).json({
                     error: 'Email already exists'
