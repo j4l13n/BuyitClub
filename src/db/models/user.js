@@ -19,14 +19,22 @@ export default (sequelize, DataTypes) => {
       allowNull: {
         args: false,
         msg: "Please enter your email"
-      }
+      },
+      unique: {
+        args: true,
+        msg: "Email already exists"
+      },
     },
-    mobile_number: {
+    mobileNumber: {
       type: DataTypes.STRING,
       allowNull: {
         args: false,
         msg: "Please enter your mobile number"
-      }
+      },
+      unique: {
+        args: true,
+        msg: "Mobile number already exists"
+      },
     },
     password: {
       type: DataTypes.STRING,
@@ -34,14 +42,14 @@ export default (sequelize, DataTypes) => {
         args: true,
       }
     },
-    is_admin: {
+    isAdmin: {
       type: DataTypes.BOOLEAN,
       allowNull: {
         args: false
       },
       defaultValue: false
     },
-    is_active: {
+    isActive: {
       type: DataTypes.BOOLEAN,
       allowNull: {
         args: false
@@ -58,7 +66,10 @@ export default (sequelize, DataTypes) => {
     image: {
       type: DataTypes.BLOB,
       defaultValue: null
-    },  
+    },
+    businessId: {
+      type: DataTypes.INTEGER
+    } 
   }, {
     hooks: {
       beforeCreate: async user => {
@@ -73,6 +84,11 @@ export default (sequelize, DataTypes) => {
   });
   User.associate = function(models) {
     // associations can be defined here
+    User.belongsToMany(models.Business, {
+      through: 'UserBusiness',
+      as: 'businesses',
+      foreignKey: 'userId'
+    })
   };
   return User;
 };
