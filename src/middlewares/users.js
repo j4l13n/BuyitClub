@@ -22,18 +22,22 @@ class UserMiddleware {
                 error: 'Invalid password, please use the following format: Ed34$8k@4k'
             });
         } else {
-            const findEmail = await User.findOne({ where: { email } });
-            const findMobile = await User.findOne({ where: { mobileNumber } })
-            if (findEmail) {
-                res.status(409).json({
-                    error: 'Email already exists'
-                });
-            } else if (findMobile) {
-                res.status(409).json({
-                    error: 'Mobile number already exists'
-                });
+            try {
+                const findEmail = await User.findOne({ where: { email } });
+                const findMobile = await User.findOne({ where: { mobileNumber } })
+                if (findEmail) {
+                    res.status(409).json({
+                        error: 'Email already exists'
+                    });
+                } else if (findMobile) {
+                    res.status(409).json({
+                        error: 'Mobile number already exists'
+                    });
+                }
+                next()
+            } catch (error) {
+                console.log(error);
             }
-            next()
         }
     }
 

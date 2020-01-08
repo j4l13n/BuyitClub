@@ -4,7 +4,7 @@ import businesses from "./businesses";
 
 const router = express.Router()
 
-router.use(('/api', users));
-router.use(('/api', businesses));
+router.use('/api', users);
+router.use('/api', businesses);
 
 export default router;

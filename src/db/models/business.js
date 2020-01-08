@@ -2,6 +2,10 @@ export default (sequelize, DataTypes) => {
   const Business = sequelize.define('Business', {
     legalName: {
       type: DataTypes.STRING,
+      unique: {
+        args: true,
+        msg: "Legal name already exists"
+      },
       allowNull: {
         args: false,
         msg: "Legal name is required"
@@ -23,6 +27,10 @@ export default (sequelize, DataTypes) => {
     },
     businessEmail: {
       type: DataTypes.STRING,
+      unique: {
+        args: true,
+        msg: "Business with this email already exists"
+      },
       allowNull: {
         args: false,
         msg: "Business Email is required"
@@ -46,21 +54,15 @@ export default (sequelize, DataTypes) => {
 });
   Business.associate = function(models) {
     // associations can be defined here
+    Business.belongsToMany(models.User, {
+      through: models.BusinessUser,
+      as: 'users',
+      foreignKey: 'businessId'
+    });
     Business.hasMany(models.BusinessCategories, {
       foreignKey: 'businessId'
     });
     Business.hasMany(models.PaymentMethod, {
-      foreignKey: 'businessId'
-    });
-    Business.belongsToMany(models.User, {
-      through: 'UserBusiness',
-      as: 'users',
-      foreignKey: 'businessId',
-      onDelete: 'CASCADE'
-    });
-    Business.belongsToMany(models.Category, {
-      through: 'BusinessCategories',
-      as: 'categories',
       foreignKey: 'businessId'
     });
   };

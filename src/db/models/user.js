@@ -67,9 +67,9 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.BLOB,
       defaultValue: null
     },
-    businessId: {
+    roleId: {
       type: DataTypes.INTEGER
-    } 
+    }
   }, {
     hooks: {
       beforeCreate: async user => {
@@ -85,10 +85,14 @@ export default (sequelize, DataTypes) => {
   User.associate = function(models) {
     // associations can be defined here
     User.belongsToMany(models.Business, {
-      through: 'UserBusiness',
+      through: models.BusinessUser,
       as: 'businesses',
       foreignKey: 'userId'
-    })
+    });
+    User.belongsTo(models.Role, {
+      foreignKey: "roleId",
+      onDelete: 'CASCADE'
+    });
   };
   return User;
 };
