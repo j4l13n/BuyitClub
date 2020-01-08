@@ -49,6 +49,18 @@ class Validator {
     isValidMobileNumber(number) {
         return /(^[+0-9]{1,3})*([0-9]{10,11}$)/.test(number)
     }
+
+    /**
+     * 
+     * @param {String} plan
+     * @return boolean 
+     */
+    isValidBusinessPlan(plan) {
+        if (plan.toLocaleLowerCase() === "free" || plan.toLocaleLowerCase() === "standard" || plan.toLocaleLowerCase() === "Premium") {
+            return true
+        }
+        return false
+    }
 }
 
 const validator = new Validator();

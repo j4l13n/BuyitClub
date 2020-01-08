@@ -1,6 +1,6 @@
 import model from "../db/models";
 
-const { Business, BusinessCategories, PaymentMethod } = model;
+const { Business, BusinessCategories, PaymentMethod, User, Category } = model;
 
 class BusinessController {
   /**
@@ -18,7 +18,7 @@ class BusinessController {
         businessMobileNumber,
         businessPlan,
         country,
-        city
+				city
       } = req.body;
       const business = {
         legalName,
@@ -29,16 +29,61 @@ class BusinessController {
 				country,
 				city
       };
-      const createBusiness = await Business.create(business);
+			const createBusiness = await Business.create(business);
+			const user = await User.findByPk(req.user.id);
+			// Populate BusinessUser join table
+			await createBusiness.addUser(user);
+			const userBusiness = await User.findByPk(req.user.id, {
+				include: [{
+					model: Business,
+					as: 'businesses',
+					attributes: ['id', 'legalName']
+			}]
+			})
       res.status(201).json({
         message: "Business created successfully",
-        data: createBusiness
+        data: userBusiness
       });
     } catch (error) {
       res.status(409).json({
         error: "Something went wrong when creating a business"
       });
     }
+	}
+
+	/**
+	 * 
+	 * @param {Object} req 
+	 * @param {Object} res 
+	 * @returns {Object} returns added category
+	 */
+	static async createCategory(req, res) {
+		try {
+			const {
+				name,
+				image,
+				description,
+				parent,
+				url
+			} = req.body;
+	
+			const category = {
+				name,
+				image,
+				description,
+				parent,
+				url
+			};
+			const createCategory = await Category.create(category);
+			res.status(201).json({
+				message: 'You have created a category successfully',
+				data: createCategory
+			});
+		} catch (error) {
+			res.status(409).json({
+        error: "Something went wrong when creating a business"
+      });
+		}
 	}
 	
 	/**
@@ -47,14 +92,14 @@ class BusinessController {
 	 * @param {Object} res 
 	 * @return {Object} created category
 	 */
-	static async addCategory(req, res) {
+	static async addBusinessCategory(req, res) {
 		try{
 			const {
-				categoryName,
+				categoryId,
 				businessId
 			} = req.body;
 			const category = {
-				categoryName,
+				categoryId,
 				businessId
 			}
 			const createCategory = await BusinessCategories.create(category);

@@ -3,7 +3,7 @@ import model from "../db/models";
 import processToken from "../helpers/processToken";
 import sendVerificationEmail from "../helpers/sendVerificationEmail";
 
-const { User, Role } = model;
+const { User, Role, Business } = model;
 
 class UserController {
   /**
@@ -20,7 +20,12 @@ class UserController {
         email,
         password
       };
-      const registerUser = await User.create(user);
+      const registerUser = await User.create(user, {
+        include: [{
+          model: Business,
+          as: 'businesses'
+        }]
+      });
       const { id } = registerUser.dataValues;
       const payload = { id, email };
       const token = await processToken.signToken(payload);

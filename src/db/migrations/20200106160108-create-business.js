@@ -9,6 +9,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       legalName: {
+        unique: true,
         allowNull: false,
         type: Sequelize.STRING
       },
@@ -21,6 +22,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       businessEmail: {
+        unique: true,
         allowNull: false,
         type: Sequelize.STRING
       },

@@ -5,7 +5,6 @@ export default (sequelize, DataTypes) => {
     },
     businessId: {
       type: DataTypes.INTEGER,
-
     }
   }, {});
   PaymentMethod.associate = function(models) {
